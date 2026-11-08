@@ -1,0 +1,252 @@
+const STATS_ENDPOINT = "/api/public/stats";
+const REFRESH_INTERVAL = 60000;
+
+const translations = {
+en:{
+navOverview:"Overview",navSecurity:"Security",navFeatures:"Features",navGuidance:"Guidance",navDownload:"Download",getApp:"Get the app",
+eyebrow:"PRIVATE COMMUNICATION, REIMAGINED",heroTitle:'Your conversations.<br><span>Your universe.</span>',heroCopy:"Stellar ECC is a secure messaging application developed by I-WORKS in North Macedonia. Discover communication designed with privacy and thoughtful protection in mind.",exploreApp:"Explore Stellar ECC",discoverSecurity:"Explore security",heroMeta:"A clearer approach to connected communication.",
+communityLabel:"THE STELLAR COMMUNITY",communityTitle:"Built for meaningful connections.",registeredLabel:"REGISTERED ACCOUNTS",statsLoading:"Connecting to public statistics…",statsLive:"Public statistics updated",statsUnavailable:"Statistics temporarily unavailable",
+overviewEyebrow:"01 / THE PLATFORM",overviewTitle:'Communication with<br><span>privacy in focus.</span>',overviewCopy:"Stellar ECC is a secure messaging application developed by I-WORKS, North Macedonia. The platform brings communication features together with security measures intended to help protect accounts, devices and message content.",overviewNote:"Explore the protections described below, including their current scope and limitations.",
+securityEyebrow:"02 / SECURITY & PRIVACY",securityTitle:'Protection is a practice.<br><span>Transparency matters.</span>',securityIntro:"A practical overview of the security mechanisms documented for Stellar ECC — what they are designed to do, and where their limits are.",encryptionTitle:"Message encryption",encryptionCopy:"One-to-one conversations use the Signal Protocol with Double Ratchet. Group conversations use Sender Keys. These mechanisms are used to protect message content.",deviceTitle:"Local device protection",deviceCopy:"Sensitive key material is stored through the platform secure-storage layer where supported. App access can be protected with the configured app PIN and device authentication.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode monitors selected local device and environment events, including USB, Bluetooth, network and power-related changes. Detected events can create a local security challenge or audit event.",guardTitle:"Stellar GUARD — account removal",guardCopy:"Stellar GUARD is designed as a protected workflow for requesting account removal using a six-digit verification code. The current Settings interface is preview-only; Continue is disabled and marked coming soon.",previewStatus:"PREVIEW · COMING SOON",wantedNote:"Wanted Mode events do not automatically wipe data or lock the app. The user can separately choose Lock now or Wipe local data and lock. Local wiping cannot erase copies already held by recipients or other devices.",
+featuresEyebrow:"03 / COMMUNICATION",featuresTitle:'Everything you need<br><span>to stay connected.</span>',featuresIntro:"Explore the communication experiences available in Stellar ECC.",messagingTitle:"Private messaging",messagingCopy:"One-to-one and group conversations with message-content protection.",voiceTitle:"Voice calls",voiceCopy:"Connect with people through voice communication.",videoTitle:"Video calls",videoCopy:"Bring conversations closer with video communication.",protectionTitle:"Device protection",protectionCopy:"Explore app access protection, local security events and user-controlled safety actions.",
+guidanceEyebrow:"04 / SECURITY GUIDANCE",guidanceTitle:'Good security starts<br><span>with everyday habits.</span>',guidanceIntro:"Help protect your account and device with these recommended practices.",tipOne:"Never share your app PIN or verification codes.",tipTwo:"Use a strong screen lock on your device.",tipThree:"Keep Stellar ECC and your operating system updated.",tipFour:"Protect your device and any backups.",tipFive:"Remember that local deletion cannot revoke information already delivered to another participant.",limitsTitle:"Understand the limits",limitsCopy:"No security feature can guarantee protection against every compromised device, operating-system vulnerability or physical attack. Monitoring cannot guarantee detection of every security incident.",
+downloadEyebrow:"05 / GET STARTED",downloadTitle:'Make room for<br><span>better conversations.</span>',downloadCopy:"Discover Stellar ECC, developed by I-WORKS.",downloadAndroid:"Download for Android",downloadNote:"Official Android release · Download availability will be announced here.",footerTagline:"Private communication. Thoughtfully built.",footerSecurity:"Security & privacy ↑",rights:"All rights reserved.",footerOrigin:"Developed in North Macedonia"
+},
+mk:{
+navOverview:"Преглед",navSecurity:"Безбедност",navFeatures:"Функции",navGuidance:"Препораки",navDownload:"Преземање",getApp:"Преземи ја апликацијата",
+eyebrow:"ПРИВАТНА КОМУНИКАЦИЈА, НОВ ПРИСТАП",heroTitle:'Твоите разговори.<br><span>Твојот универзум.</span>',heroCopy:"Stellar ECC е безбедна апликација за пораки, развиена од I-WORKS во Северна Македонија. Откриј комуникација со фокус на приватноста и внимателно осмислената заштита.",exploreApp:"Истражи го Stellar ECC",discoverSecurity:"Истражи ја безбедноста",heroMeta:"Поинаков пристап кон поврзаната комуникација.",
+communityLabel:"ЗАЕДНИЦАТА STELLAR",communityTitle:"Создадена за значајни врски.",registeredLabel:"РЕГИСТРИРАНИ СМЕТКИ",statsLoading:"Поврзување со јавната статистика…",statsLive:"Јавната статистика е ажурирана",statsUnavailable:"Статистиката моментално не е достапна",
+overviewEyebrow:"01 / ПЛАТФОРМАТА",overviewTitle:'Комуникација со<br><span>фокус на приватноста.</span>',overviewCopy:"Stellar ECC е безбедна апликација за пораки, развиена од I-WORKS, Северна Македонија. Платформата ги обединува комуникациските функции со безбедносни мерки наменети да помогнат во заштитата на сметките, уредите и содржината на пораките.",overviewNote:"Запознај се со опишаните заштити, нивниот тековен опсег и ограничувањата.",
+securityEyebrow:"02 / БЕЗБЕДНОСТ И ПРИВАТНОСТ",securityTitle:'Заштитата е процес.<br><span>Транспарентноста е важна.</span>',securityIntro:"Практичен преглед на безбедносните механизми документирани за Stellar ECC — нивната намена и нивните ограничувања.",encryptionTitle:"Енкрипција на пораки",encryptionCopy:"Разговорите еден-на-еден користат Signal Protocol со Double Ratchet. Групните разговори користат Sender Keys. Овие механизми служат за заштита на содржината на пораките.",deviceTitle:"Локална заштита на уредот",deviceCopy:"Чувствителниот клучен материјал се чува преку слојот за безбедно складирање на платформата, каде што е поддржан. Пристапот до апликацијата може да биде заштитен со конфигуриран PIN и автентикација на уредот.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode следи избрани локални настани на уредот и околината, вклучувајќи промени поврзани со USB, Bluetooth, мрежата и напојувањето. Откриените настани може да создадат локален безбедносен предизвик или запис за ревизија.",guardTitle:"Stellar GUARD — отстранување сметка",guardCopy:"Stellar GUARD е осмислен како заштитен процес за барање отстранување на сметка со шестцифрен код за потврда. Тековниот интерфејс во Settings е само преглед; копчето Continue е оневозможено и означено како наскоро достапно.",previewStatus:"ПРЕГЛЕД · НАСКОРО",wantedNote:"Настаните во Wanted Mode не ги бришат автоматски податоците и не ја заклучуваат апликацијата. Корисникот може одделно да избере Lock now или Wipe local data and lock. Локалното бришење не може да ги избрише копиите што веќе ги имаат примателите или други уреди.",
+featuresEyebrow:"03 / КОМУНИКАЦИЈА",featuresTitle:'Сè што ти треба<br><span>за да останеш поврзан.</span>',featuresIntro:"Запознај се со комуникациските можности на Stellar ECC.",messagingTitle:"Приватни пораки",messagingCopy:"Разговори еден-на-еден и групни разговори со заштита на содржината на пораките.",voiceTitle:"Гласовни повици",voiceCopy:"Остани поврзан преку гласовна комуникација.",videoTitle:"Видео повици",videoCopy:"Приближи ги разговорите преку видео-комуникација.",protectionTitle:"Заштита на уредот",protectionCopy:"Истражи ја заштитата на пристапот до апликацијата, локалните безбедносни настани и дејствата што ги контролира корисникот.",
+guidanceEyebrow:"04 / БЕЗБЕДНОСНИ ПРЕПОРАКИ",guidanceTitle:'Добрата безбедност почнува<br><span>со секојдневните навики.</span>',guidanceIntro:"Заштити ги сметката и уредот со следниве препорачани практики.",tipOne:"Никогаш не го споделувај PIN-кодот или кодовите за потврда.",tipTwo:"Користи силно заклучување на екранот на уредот.",tipThree:"Редовно ажурирај ги Stellar ECC и оперативниот систем.",tipFour:"Заштити го уредот и резервните копии.",tipFive:"Имај предвид дека локалното бришење не може да ги повлече информациите што веќе му биле доставени на друг учесник.",limitsTitle:"Разбери ги ограничувањата",limitsCopy:"Ниту една безбедносна функција не може да гарантира заштита од секој компромитиран уред, ранливост на оперативниот систем или физички напад. Следењето не може да гарантира откривање на секој безбедносен инцидент.",
+downloadEyebrow:"05 / ЗАПОЧНИ",downloadTitle:'Отвори простор за<br><span>подобри разговори.</span>',downloadCopy:"Запознај го Stellar ECC, развиен од I-WORKS.",downloadAndroid:"Преземи за Android",downloadNote:"Официјална Android верзија · Информацијата за преземање ќе биде објавена тука.",footerTagline:"Приватна комуникација. Внимателно создадена.",footerSecurity:"Безбедност и приватност ↑",rights:"Сите права се задржани.",footerOrigin:"Развиено во Северна Македонија"
+},
+sq:{
+navOverview:"Përmbledhje",navSecurity:"Siguria",navFeatures:"Funksionet",navGuidance:"Udhëzime",navDownload:"Shkarko",getApp:"Merr aplikacionin",
+eyebrow:"KOMUNIKIM PRIVAT, I RIMENDUAR",heroTitle:'Bisedat tuaja.<br><span>Universi juaj.</span>',heroCopy:"Stellar ECC është një aplikacion i sigurt për mesazhe, i zhvilluar nga I-WORKS në Maqedoninë e Veriut. Zbuloni komunikimin me fokus te privatësia dhe mbrojtja e menduar me kujdes.",exploreApp:"Eksploroni Stellar ECC",discoverSecurity:"Eksploroni sigurinë",heroMeta:"Një qasje më e qartë ndaj komunikimit të ndërlidhur.",
+communityLabel:"KOMUNITETI STELLAR",communityTitle:"Krijuar për lidhje me kuptim.",registeredLabel:"LLOGARI TË REGJISTRUARA",statsLoading:"Po lidhet me statistikat publike…",statsLive:"Statistikat publike u përditësuan",statsUnavailable:"Statistikat nuk janë përkohësisht të disponueshme",
+overviewEyebrow:"01 / PLATFORMA",overviewTitle:'Komunikim me<br><span>privatësinë në fokus.</span>',overviewCopy:"Stellar ECC është një aplikacion i sigurt për mesazhe, i zhvilluar nga I-WORKS, Maqedonia e Veriut. Platforma bashkon veçoritë e komunikimit me masa sigurie që synojnë të ndihmojnë në mbrojtjen e llogarive, pajisjeve dhe përmbajtjes së mesazheve.",overviewNote:"Njihuni me mbrojtjet e përshkruara më poshtë, përfshirë fushëveprimin dhe kufizimet e tyre aktuale.",
+securityEyebrow:"02 / SIGURIA DHE PRIVATËSIA",securityTitle:'Mbrojtja është praktikë.<br><span>Transparenca ka rëndësi.</span>',securityIntro:"Një përmbledhje praktike e mekanizmave të sigurisë të dokumentuar për Stellar ECC — qëllimi i tyre dhe kufizimet.",encryptionTitle:"Enkriptimi i mesazheve",encryptionCopy:"Bisedat një-me-një përdorin Signal Protocol me Double Ratchet. Bisedat në grup përdorin Sender Keys. Këta mekanizma përdoren për të mbrojtur përmbajtjen e mesazheve.",deviceTitle:"Mbrojtja lokale e pajisjes",deviceCopy:"Materiali i ndjeshëm i çelësave ruhet përmes shtresës së ruajtjes së sigurt të platformës aty ku mbështetet. Qasja në aplikacion mund të mbrohet me PIN-in e konfiguruar dhe autentikimin e pajisjes.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode monitoron ngjarje të zgjedhura lokale të pajisjes dhe mjedisit, përfshirë ndryshimet që lidhen me USB, Bluetooth, rrjetin dhe energjinë. Ngjarjet e zbuluara mund të krijojnë një sfidë lokale sigurie ose një regjistrim auditimi.",guardTitle:"Stellar GUARD — heqja e llogarisë",guardCopy:"Stellar GUARD është projektuar si një proces i mbrojtur për kërkesën e heqjes së llogarisë me një kod verifikimi gjashtëshifror. Ndërfaqja aktuale te Settings është vetëm paraprake; Continue është i çaktivizuar dhe shënohet si së shpejti.",previewStatus:"PARAPRAK · SË SHPEJTI",wantedNote:"Ngjarjet e Wanted Mode nuk i fshijnë automatikisht të dhënat dhe nuk e bllokojnë aplikacionin. Përdoruesi mund të zgjedhë veçmas Lock now ose Wipe local data and lock. Fshirja lokale nuk mund të fshijë kopjet që i kanë tashmë marrësit ose pajisjet e tjera.",
+featuresEyebrow:"03 / KOMUNIKIMI",featuresTitle:'Gjithçka që ju duhet<br><span>për të qëndruar të lidhur.</span>',featuresIntro:"Eksploroni përvojat e komunikimit të disponueshme në Stellar ECC.",messagingTitle:"Mesazhe private",messagingCopy:"Biseda individuale dhe në grup me mbrojtje të përmbajtjes së mesazheve.",voiceTitle:"Thirrje zanore",voiceCopy:"Qëndroni të lidhur përmes komunikimit zanor.",videoTitle:"Thirrje video",videoCopy:"Afrojini bisedat me komunikim video.",protectionTitle:"Mbrojtja e pajisjes",protectionCopy:"Eksploroni mbrojtjen e qasjes në aplikacion, ngjarjet lokale të sigurisë dhe veprimet e kontrolluara nga përdoruesi.",
+guidanceEyebrow:"04 / UDHËZIME PËR SIGURINË",guidanceTitle:'Siguria e mirë fillon<br><span>me zakonet e përditshme.</span>',guidanceIntro:"Ndihmoni në mbrojtjen e llogarisë dhe pajisjes me këto praktika të rekomanduara.",tipOne:"Mos ndani kurrë PIN-in e aplikacionit ose kodet e verifikimit.",tipTwo:"Përdorni një kyçje të fortë të ekranit në pajisje.",tipThree:"Mbajeni të përditësuar Stellar ECC dhe sistemin operativ.",tipFour:"Mbroni pajisjen dhe kopjet rezervë.",tipFive:"Mbani mend se fshirja lokale nuk mund të tërheqë informacionin që i është dorëzuar tashmë një pjesëmarrësi tjetër.",limitsTitle:"Kuptoni kufizimet",limitsCopy:"Asnjë veçori sigurie nuk mund të garantojë mbrojtje kundër çdo pajisjeje të komprometuar, cenueshmërie të sistemit operativ ose sulmi fizik. Monitorimi nuk mund të garantojë zbulimin e çdo incidenti sigurie.",
+downloadEyebrow:"05 / FILLONI",downloadTitle:'Krijoni hapësirë për<br><span>biseda më të mira.</span>',downloadCopy:"Zbuloni Stellar ECC, zhvilluar nga I-WORKS.",downloadAndroid:"Shkarko për Android",downloadNote:"Versioni zyrtar për Android · Disponueshmëria e shkarkimit do të njoftohet këtu.",footerTagline:"Komunikim privat. I ndërtuar me kujdes.",footerSecurity:"Siguria dhe privatësia ↑",rights:"Të gjitha të drejtat të rezervuara.",footerOrigin:"Zhvilluar në Maqedoninë e Veriut"
+},
+ru:{
+navOverview:"Обзор",navSecurity:"Безопасность",navFeatures:"Возможности",navGuidance:"Рекомендации",navDownload:"Скачать",getApp:"Получить приложение",
+eyebrow:"НОВЫЙ ВЗГЛЯД НА ЛИЧНОЕ ОБЩЕНИЕ",heroTitle:'Ваши разговоры.<br><span>Ваша вселенная.</span>',heroCopy:"Stellar ECC — защищённое приложение для обмена сообщениями, разработанное компанией I-WORKS в Северной Македонии. Откройте для себя общение с вниманием к конфиденциальности и продуманной защите.",exploreApp:"Открыть Stellar ECC",discoverSecurity:"О безопасности",heroMeta:"Более продуманный подход к общению.",
+communityLabel:"СООБЩЕСТВО STELLAR",communityTitle:"Для значимых связей.",registeredLabel:"ЗАРЕГИСТРИРОВАННЫЕ АККАУНТЫ",statsLoading:"Подключение к общедоступной статистике…",statsLive:"Общедоступная статистика обновлена",statsUnavailable:"Статистика временно недоступна",
+overviewEyebrow:"01 / ПЛАТФОРМА",overviewTitle:'Общение с акцентом<br><span>на конфиденциальность.</span>',overviewCopy:"Stellar ECC — защищённое приложение для обмена сообщениями, разработанное компанией I-WORKS в Северной Македонии. Платформа объединяет функции общения и меры безопасности, призванные помочь защитить аккаунты, устройства и содержимое сообщений.",overviewNote:"Ознакомьтесь с описанными ниже средствами защиты, их текущими возможностями и ограничениями.",
+securityEyebrow:"02 / БЕЗОПАСНОСТЬ И КОНФИДЕНЦИАЛЬНОСТЬ",securityTitle:'Защита — это процесс.<br><span>Прозрачность важна.</span>',securityIntro:"Практический обзор задокументированных механизмов безопасности Stellar ECC, их назначения и ограничений.",encryptionTitle:"Шифрование сообщений",encryptionCopy:"В личных беседах используется Signal Protocol с Double Ratchet. В групповых беседах используются Sender Keys. Эти механизмы предназначены для защиты содержимого сообщений.",deviceTitle:"Локальная защита устройства",deviceCopy:"Конфиденциальный ключевой материал хранится с помощью системного защищённого хранилища там, где оно поддерживается. Доступ к приложению может защищаться настроенным PIN-кодом и аутентификацией устройства.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode отслеживает выбранные локальные события устройства и среды, включая изменения USB, Bluetooth, сети и питания. Обнаруженные события могут создавать локальную проверку безопасности или запись аудита.",guardTitle:"Stellar GUARD — удаление аккаунта",guardCopy:"Stellar GUARD задуман как защищённый процесс запроса удаления аккаунта с помощью шестизначного кода подтверждения. Текущий интерфейс в Settings доступен только в предварительном виде; Continue отключена и помечена как функция, которая появится позже.",previewStatus:"ПРЕДВАРИТЕЛЬНАЯ ВЕРСИЯ · СКОРО",wantedNote:"События Wanted Mode не приводят к автоматическому удалению данных или блокировке приложения. Пользователь может отдельно выбрать Lock now или Wipe local data and lock. Локальное удаление не может стереть копии, уже имеющиеся у получателей или на других устройствах.",
+featuresEyebrow:"03 / ОБЩЕНИЕ",featuresTitle:'Всё необходимое,<br><span>чтобы быть на связи.</span>',featuresIntro:"Ознакомьтесь с возможностями общения в Stellar ECC.",messagingTitle:"Личные сообщения",messagingCopy:"Личные и групповые беседы с защитой содержимого сообщений.",voiceTitle:"Голосовые звонки",voiceCopy:"Оставайтесь на связи с помощью голосового общения.",videoTitle:"Видеозвонки",videoCopy:"Станьте ближе благодаря видеосвязи.",protectionTitle:"Защита устройства",protectionCopy:"Защита доступа к приложению, локальные события безопасности и действия под контролем пользователя.",
+guidanceEyebrow:"04 / РЕКОМЕНДАЦИИ ПО БЕЗОПАСНОСТИ",guidanceTitle:'Безопасность начинается<br><span>с повседневных привычек.</span>',guidanceIntro:"Помогите защитить аккаунт и устройство с помощью следующих рекомендаций.",tipOne:"Никогда не сообщайте PIN-код приложения и коды подтверждения.",tipTwo:"Используйте надёжную блокировку экрана устройства.",tipThree:"Обновляйте Stellar ECC и операционную систему.",tipFour:"Защищайте устройство и резервные копии.",tipFive:"Помните: локальное удаление не может отозвать информацию, уже доставленную другому участнику.",limitsTitle:"Помните об ограничениях",limitsCopy:"Ни одна функция безопасности не гарантирует защиту от любого скомпрометированного устройства, уязвимости операционной системы или физической атаки. Мониторинг не гарантирует обнаружение каждого инцидента безопасности.",
+downloadEyebrow:"05 / НАЧАТЬ",downloadTitle:'Откройте пространство<br><span>для лучших разговоров.</span>',downloadCopy:"Откройте для себя Stellar ECC от I-WORKS.",downloadAndroid:"Скачать для Android",downloadNote:"Официальная версия для Android · Информация о доступности загрузки появится здесь.",footerTagline:"Личное общение. Продуманный подход.",footerSecurity:"Безопасность и конфиденциальность ↑",rights:"Все права защищены.",footerOrigin:"Разработано в Северной Македонии"
+},
+fr:{
+navOverview:"Présentation",navSecurity:"Sécurité",navFeatures:"Fonctionnalités",navGuidance:"Conseils",navDownload:"Télécharger",getApp:"Obtenir l’application",
+eyebrow:"LA COMMUNICATION PRIVÉE REPENSÉE",heroTitle:'Vos conversations.<br><span>Votre univers.</span>',heroCopy:"Stellar ECC est une application de messagerie sécurisée développée par I-WORKS en Macédoine du Nord. Découvrez une communication pensée autour de la confidentialité et d’une protection réfléchie.",exploreApp:"Découvrir Stellar ECC",discoverSecurity:"Découvrir la sécurité",heroMeta:"Une approche plus claire de la communication connectée.",
+communityLabel:"LA COMMUNAUTÉ STELLAR",communityTitle:"Conçue pour des liens qui comptent.",registeredLabel:"COMPTES INSCRITS",statsLoading:"Connexion aux statistiques publiques…",statsLive:"Statistiques publiques mises à jour",statsUnavailable:"Statistiques temporairement indisponibles",
+overviewEyebrow:"01 / LA PLATEFORME",overviewTitle:'Communiquer avec<br><span>la confidentialité au centre.</span>',overviewCopy:"Stellar ECC est une application de messagerie sécurisée développée par I-WORKS, en Macédoine du Nord. La plateforme associe des fonctions de communication à des mesures de sécurité destinées à contribuer à la protection des comptes, des appareils et du contenu des messages.",overviewNote:"Découvrez les protections décrites ci-dessous, leur portée actuelle et leurs limites.",
+securityEyebrow:"02 / SÉCURITÉ ET CONFIDENTIALITÉ",securityTitle:'La protection est une pratique.<br><span>La transparence compte.</span>',securityIntro:"Un aperçu pratique des mécanismes de sécurité documentés pour Stellar ECC, de leur objectif et de leurs limites.",encryptionTitle:"Chiffrement des messages",encryptionCopy:"Les conversations individuelles utilisent le Signal Protocol avec Double Ratchet. Les conversations de groupe utilisent Sender Keys. Ces mécanismes servent à protéger le contenu des messages.",deviceTitle:"Protection locale de l’appareil",deviceCopy:"Les éléments de clés sensibles sont stockés via la couche de stockage sécurisé de la plateforme lorsqu’elle est prise en charge. L’accès à l’application peut être protégé par le code PIN configuré et l’authentification de l’appareil.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode surveille certains événements locaux de l’appareil et de son environnement, notamment les changements liés à l’USB, au Bluetooth, au réseau et à l’alimentation. Les événements détectés peuvent créer un défi de sécurité local ou une entrée d’audit.",guardTitle:"Stellar GUARD — suppression du compte",guardCopy:"Stellar GUARD est conçu comme un processus protégé permettant de demander la suppression d’un compte à l’aide d’un code de vérification à six chiffres. L’interface actuelle dans Settings est une préversion ; Continue est désactivé et indiqué comme bientôt disponible.",previewStatus:"APERÇU · BIENTÔT DISPONIBLE",wantedNote:"Les événements Wanted Mode n’effacent pas automatiquement les données et ne verrouillent pas l’application. L’utilisateur peut choisir séparément Lock now ou Wipe local data and lock. L’effacement local ne peut pas supprimer les copies déjà détenues par les destinataires ou d’autres appareils.",
+featuresEyebrow:"03 / COMMUNICATION",featuresTitle:'Tout ce qu’il faut<br><span>pour rester connecté.</span>',featuresIntro:"Découvrez les expériences de communication proposées par Stellar ECC.",messagingTitle:"Messagerie privée",messagingCopy:"Conversations individuelles et de groupe avec protection du contenu des messages.",voiceTitle:"Appels vocaux",voiceCopy:"Restez en contact grâce aux communications vocales.",videoTitle:"Appels vidéo",videoCopy:"Rapprochez les conversations grâce à la vidéo.",protectionTitle:"Protection de l’appareil",protectionCopy:"Protection de l’accès à l’application, événements de sécurité locaux et actions contrôlées par l’utilisateur.",
+guidanceEyebrow:"04 / CONSEILS DE SÉCURITÉ",guidanceTitle:'La sécurité commence<br><span>par les gestes du quotidien.</span>',guidanceIntro:"Contribuez à protéger votre compte et votre appareil grâce à ces bonnes pratiques.",tipOne:"Ne partagez jamais votre code PIN ni vos codes de vérification.",tipTwo:"Utilisez un verrouillage d’écran robuste.",tipThree:"Maintenez Stellar ECC et votre système d’exploitation à jour.",tipFour:"Protégez votre appareil et vos sauvegardes.",tipFive:"N’oubliez pas que la suppression locale ne peut pas retirer les informations déjà transmises à un autre participant.",limitsTitle:"Comprendre les limites",limitsCopy:"Aucune fonction de sécurité ne peut garantir une protection contre tout appareil compromis, toute vulnérabilité du système d’exploitation ou toute attaque physique. La surveillance ne garantit pas la détection de chaque incident de sécurité.",
+downloadEyebrow:"05 / COMMENCER",downloadTitle:'Faites place à<br><span>de meilleures conversations.</span>',downloadCopy:"Découvrez Stellar ECC, développé par I-WORKS.",downloadAndroid:"Télécharger pour Android",downloadNote:"Version officielle Android · La disponibilité du téléchargement sera annoncée ici.",footerTagline:"Communication privée. Conçue avec soin.",footerSecurity:"Sécurité et confidentialité ↑",rights:"Tous droits réservés.",footerOrigin:"Développé en Macédoine du Nord"
+},
+it:{
+navOverview:"Panoramica",navSecurity:"Sicurezza",navFeatures:"Funzioni",navGuidance:"Consigli",navDownload:"Download",getApp:"Scarica l’app",
+eyebrow:"LA COMUNICAZIONE PRIVATA, RIPENSATA",heroTitle:'Le tue conversazioni.<br><span>Il tuo universo.</span>',heroCopy:"Stellar ECC è un’applicazione di messaggistica sicura sviluppata da I-WORKS in Macedonia del Nord. Scopri una comunicazione progettata con attenzione alla privacy e alla protezione.",exploreApp:"Scopri Stellar ECC",discoverSecurity:"Scopri la sicurezza",heroMeta:"Un approccio più consapevole alla comunicazione.",
+communityLabel:"LA COMMUNITY STELLAR",communityTitle:"Creata per connessioni significative.",registeredLabel:"ACCOUNT REGISTRATI",statsLoading:"Connessione alle statistiche pubbliche…",statsLive:"Statistiche pubbliche aggiornate",statsUnavailable:"Statistiche temporaneamente non disponibili",
+overviewEyebrow:"01 / LA PIATTAFORMA",overviewTitle:'Comunicazione con<br><span>la privacy al centro.</span>',overviewCopy:"Stellar ECC è un’applicazione di messaggistica sicura sviluppata da I-WORKS, Macedonia del Nord. La piattaforma riunisce funzioni di comunicazione e misure di sicurezza pensate per contribuire a proteggere account, dispositivi e contenuto dei messaggi.",overviewNote:"Scopri le protezioni descritte di seguito, il loro ambito attuale e i relativi limiti.",
+securityEyebrow:"02 / SICUREZZA E PRIVACY",securityTitle:'La protezione è una pratica.<br><span>La trasparenza conta.</span>',securityIntro:"Una panoramica pratica dei meccanismi di sicurezza documentati per Stellar ECC, del loro scopo e dei loro limiti.",encryptionTitle:"Crittografia dei messaggi",encryptionCopy:"Le conversazioni individuali utilizzano Signal Protocol con Double Ratchet. Le conversazioni di gruppo utilizzano Sender Keys. Questi meccanismi servono a proteggere il contenuto dei messaggi.",deviceTitle:"Protezione locale del dispositivo",deviceCopy:"Il materiale delle chiavi sensibili viene archiviato tramite il livello di archiviazione sicura della piattaforma, ove supportato. L’accesso all’app può essere protetto con il PIN configurato e l’autenticazione del dispositivo.",wantedTitle:"Wanted Mode",wantedCopy:"Wanted Mode monitora determinati eventi locali del dispositivo e dell’ambiente, comprese le modifiche relative a USB, Bluetooth, rete e alimentazione. Gli eventi rilevati possono generare una verifica di sicurezza locale o una registrazione di audit.",guardTitle:"Stellar GUARD — rimozione dell’account",guardCopy:"Stellar GUARD è progettato come procedura protetta per richiedere la rimozione di un account tramite un codice di verifica a sei cifre. L’interfaccia attuale in Settings è solo un’anteprima; Continue è disabilitato e indicato come prossimamente disponibile.",previewStatus:"ANTEPRIMA · IN ARRIVO",wantedNote:"Gli eventi di Wanted Mode non cancellano automaticamente i dati e non bloccano l’app. L’utente può scegliere separatamente Lock now oppure Wipe local data and lock. La cancellazione locale non può eliminare le copie già in possesso dei destinatari o di altri dispositivi.",
+featuresEyebrow:"03 / COMUNICAZIONE",featuresTitle:'Tutto ciò che serve<br><span>per restare connessi.</span>',featuresIntro:"Scopri le esperienze di comunicazione disponibili in Stellar ECC.",messagingTitle:"Messaggistica privata",messagingCopy:"Conversazioni individuali e di gruppo con protezione del contenuto dei messaggi.",voiceTitle:"Chiamate vocali",voiceCopy:"Resta in contatto tramite comunicazione vocale.",videoTitle:"Videochiamate",videoCopy:"Avvicina le conversazioni con la comunicazione video.",protectionTitle:"Protezione del dispositivo",protectionCopy:"Protezione dell’accesso all’app, eventi di sicurezza locali e azioni controllate dall’utente.",
+guidanceEyebrow:"04 / CONSIGLI PER LA SICUREZZA",guidanceTitle:'La buona sicurezza inizia<br><span>dalle abitudini quotidiane.</span>',guidanceIntro:"Aiuta a proteggere account e dispositivo con queste pratiche consigliate.",tipOne:"Non condividere mai il PIN dell’app o i codici di verifica.",tipTwo:"Usa un blocco schermo robusto sul dispositivo.",tipThree:"Mantieni aggiornati Stellar ECC e il sistema operativo.",tipFour:"Proteggi il dispositivo e i backup.",tipFive:"Ricorda che l’eliminazione locale non può revocare le informazioni già consegnate a un altro partecipante.",limitsTitle:"Comprendere i limiti",limitsCopy:"Nessuna funzione di sicurezza può garantire protezione contro ogni dispositivo compromesso, vulnerabilità del sistema operativo o attacco fisico. Il monitoraggio non può garantire il rilevamento di ogni incidente di sicurezza.",
+downloadEyebrow:"05 / INIZIA",downloadTitle:'Fai spazio a<br><span>conversazioni migliori.</span>',downloadCopy:"Scopri Stellar ECC, sviluppato da I-WORKS.",downloadAndroid:"Scarica per Android",downloadNote:"Versione ufficiale Android · La disponibilità del download sarà annunciata qui.",footerTagline:"Comunicazione privata. Progettata con cura.",footerSecurity:"Sicurezza e privacy ↑",rights:"Tutti i diritti riservati.",footerOrigin:"Sviluppato in Macedonia del Nord"
+}
+};
+
+const UI_LABELS = {
+  en: {
+    home:"Stellar ECC home", menuOpen:"Open navigation", menuClose:"Close navigation",
+    navigation:"Main navigation", language:"Choose language", community:"Community statistics",
+    title:"Stellar ECC — Private communication",
+    description:"Stellar ECC — secure messaging by I-WORKS, North Macedonia. Explore privacy, security features and official downloads.",
+    ogTitle:"Stellar ECC — Private communication, thoughtfully designed",
+    ogDescription:"Discover Stellar ECC security, privacy features and official Android release."
+  },
+  mk: {
+    home:"Почетна страница на Stellar ECC", menuOpen:"Отвори навигација", menuClose:"Затвори навигација",
+    navigation:"Главна навигација", language:"Избери јазик", community:"Статистика на заедницата",
+    title:"Stellar ECC — Приватна комуникација",
+    description:"Stellar ECC — безбедна апликација за пораки од I-WORKS, Северна Македонија. Истражи ја приватноста, безбедносните функции и официјалните преземања.",
+    ogTitle:"Stellar ECC — Приватна комуникација со внимателен дизајн",
+    ogDescription:"Запознај се со безбедноста, приватноста и официјалната Android верзија на Stellar ECC."
+  },
+  sq: {
+    home:"Faqja kryesore e Stellar ECC", menuOpen:"Hap navigimin", menuClose:"Mbyll navigimin",
+    navigation:"Navigimi kryesor", language:"Zgjidhni gjuhën", community:"Statistikat e komunitetit",
+    title:"Stellar ECC — Komunikim privat",
+    description:"Stellar ECC — aplikacion i sigurt për mesazhe nga I-WORKS, Maqedonia e Veriut. Zbuloni privatësinë, veçoritë e sigurisë dhe shkarkimet zyrtare.",
+    ogTitle:"Stellar ECC — Komunikim privat, i projektuar me kujdes",
+    ogDescription:"Zbuloni sigurinë, privatësinë dhe versionin zyrtar Android të Stellar ECC."
+  },
+  ru: {
+    home:"Главная страница Stellar ECC", menuOpen:"Открыть навигацию", menuClose:"Закрыть навигацию",
+    navigation:"Главная навигация", language:"Выберите язык", community:"Статистика сообщества",
+    title:"Stellar ECC — Личное общение",
+    description:"Stellar ECC — защищённое приложение для сообщений от I-WORKS, Северная Македония. Узнайте о конфиденциальности, функциях безопасности и официальных загрузках.",
+    ogTitle:"Stellar ECC — Продуманное личное общение",
+    ogDescription:"Узнайте о безопасности, конфиденциальности и официальной версии Stellar ECC для Android."
+  },
+  fr: {
+    home:"Accueil de Stellar ECC", menuOpen:"Ouvrir la navigation", menuClose:"Fermer la navigation",
+    navigation:"Navigation principale", language:"Choisir la langue", community:"Statistiques de la communauté",
+    title:"Stellar ECC — Communication privée",
+    description:"Stellar ECC — messagerie sécurisée développée par I-WORKS, Macédoine du Nord. Découvrez la confidentialité, les fonctions de sécurité et les téléchargements officiels.",
+    ogTitle:"Stellar ECC — Une communication privée pensée avec soin",
+    ogDescription:"Découvrez la sécurité, la confidentialité et la version officielle Android de Stellar ECC."
+  },
+  it: {
+    home:"Pagina iniziale di Stellar ECC", menuOpen:"Apri navigazione", menuClose:"Chiudi navigazione",
+    navigation:"Navigazione principale", language:"Scegli la lingua", community:"Statistiche della community",
+    title:"Stellar ECC — Comunicazione privata",
+    description:"Stellar ECC — messaggistica sicura sviluppata da I-WORKS, Macedonia del Nord. Scopri privacy, funzioni di sicurezza e download ufficiali.",
+    ogTitle:"Stellar ECC — Comunicazione privata, progettata con cura",
+    ogDescription:"Scopri la sicurezza, la privacy e la versione ufficiale Android di Stellar ECC."
+  }
+};
+
+const languageSelect = document.getElementById("languageSelect");
+const userCounter = document.getElementById("registeredUsers");
+const statsStatus = document.getElementById("statsStatus");
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+let statsState = "loading";
+
+function updateStatsStatus(dictionary) {
+  if (!statsStatus) return;
+
+  const statusKey = {
+    loading: "statsLoading",
+    live: "statsLive",
+    unavailable: "statsUnavailable"
+  }[statsState];
+
+  statsStatus.textContent = dictionary[statusKey];
+}
+
+function applyLanguage(language) {
+  if (!translations[language]) language = "en";
+
+  const dictionary = translations[language];
+  const labels = UI_LABELS[language] || UI_LABELS.en;
+
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    const key = element.dataset.i18n;
+    if (Object.prototype.hasOwnProperty.call(dictionary, key)) {
+      element.textContent = dictionary[key];
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-html]").forEach(element => {
+    const key = element.dataset.i18nHtml;
+    if (Object.prototype.hasOwnProperty.call(dictionary, key)) {
+      element.innerHTML = dictionary[key];
+    }
+  });
+
+  document.title = labels.title;
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  const ogDescription = document.querySelector('meta[property="og:description"]');
+
+  if (metaDescription) metaDescription.content = labels.description;
+  if (ogTitle) ogTitle.content = labels.ogTitle;
+  if (ogDescription) ogDescription.content = labels.ogDescription;
+
+  const brand = document.querySelector(".brand");
+  const mainNav = document.querySelector("nav[aria-label]");
+  const languageLabel = document.querySelector("#languageSelect");
+  const community = document.querySelector(".community-strip");
+
+  if (brand) brand.setAttribute("aria-label", labels.home);
+  if (mainNav) mainNav.setAttribute("aria-label", labels.navigation);
+  if (languageLabel) languageLabel.setAttribute("aria-label", labels.language);
+  if (community) community.setAttribute("aria-label", labels.community);
+
+  if (menuToggle) {
+    const isOpen = navLinks && navLinks.classList.contains("open");
+    menuToggle.setAttribute("aria-label", isOpen ? labels.menuClose : labels.menuOpen);
+  }
+
+  updateStatsStatus(dictionary);
+
+  try {
+    localStorage.setItem("stellar-language", language);
+  } catch (_) {}
+}
+
+let savedLanguage = "en";
+
+try {
+  savedLanguage = localStorage.getItem("stellar-language") || "en";
+} catch (_) {}
+
+if (!translations[savedLanguage]) savedLanguage = "en";
+
+if (languageSelect) {
+  languageSelect.value = savedLanguage;
+  languageSelect.addEventListener("change", event => {
+    applyLanguage(event.target.value);
+  });
+}
+
+applyLanguage(savedLanguage);
+
+async function loadRegisteredUsers() {
+  if (!userCounter || !statsStatus) return;
+
+  try {
+    const response = await fetch(STATS_ENDPOINT, {
+      headers: { Accept: "application/json" },
+      cache: "no-store"
+    });
+
+    if (!response.ok) throw new Error("Statistics endpoint unavailable");
+
+    const data = await response.json();
+    const count = data.registeredUsers;
+
+    if (!Number.isSafeInteger(count) || count < 0) {
+      throw new Error("Invalid statistics response");
+    }
+
+    userCounter.textContent = count.toLocaleString(document.documentElement.lang);
+    statsState = "live";
+  } catch (_) {
+    userCounter.textContent = "—";
+    statsState = "unavailable";
+  }
+
+  const dictionary = translations[document.documentElement.lang] || translations.en;
+  updateStatsStatus(dictionary);
+}
+
+if (menuToggle && navLinks) {
+  navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      applyLanguage(document.documentElement.lang);
+    });
+  });
+}
+
+const yearElement = document.getElementById("year");
+if (yearElement) yearElement.textContent = new Date().getFullYear();
+
+loadRegisteredUsers();
+setInterval(loadRegisteredUsers, REFRESH_INTERVAL);

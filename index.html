@@ -1,165 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080d19">
-  <meta name="description" content="Discover Stellar ECC, a privacy-focused communication platform.">
-  <title>Stellar ECC — Private Communication</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Stellar ECC — secure messaging by I-WORKS, North Macedonia. Explore privacy, security features and official downloads.">
+  <meta property="og:title" content="Stellar ECC — Private communication, thoughtfully designed">
+  <meta property="og:description" content="Discover Stellar ECC security, privacy features and official Android release.">
+  <title>Stellar ECC — Private communication</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<header class="header">
-  <nav class="nav container">
-    <a href="#" class="brand">
-      <span class="brand-icon">✦</span>
-      <span>STELLAR <b>ECC</b></span>
-    </a>
-
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-
-    <div class="nav-links" id="navLinks">
-      <a href="#about">About</a>
-      <a href="#security">Security</a>
-      <a href="#features">Features</a>
-      <a href="#download">Download</a>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="#top" aria-label="Stellar ECC home"><span class="brand-mark">✦</span><span>STELLAR <b>ECC</b><small>BY I-WORKS</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false" onclick="const n=document.getElementById('navLinks');const o=n.classList.toggle('open');this.setAttribute('aria-expanded',String(o));">☰</button>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="#overview" data-i18n="navOverview">Overview</a>
+      <a href="#security" data-i18n="navSecurity">Security</a>
+      <a href="#features" data-i18n="navFeatures">Features</a>
+      <a href="#best-practices" data-i18n="navGuidance">Guidance</a>
+      <a href="#download" data-i18n="navDownload">Download</a>
+      <a href="#contact" data-i18n="navContact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <label class="sr-only" for="languageSelect">Language</label>
+      <select id="languageSelect" class="language-select" aria-label="Choose language">
+        <option value="en">EN</option><option value="mk">МК</option><option value="sq">SQ</option>
+        <option value="ru">RU</option><option value="fr">FR</option><option value="it">IT</option>
+      </select>
+      <a class="nav-cta" href="#download" data-i18n="getApp">Get the app <span>↗</span></a>
     </div>
-    <a class="nav-cta" href="#download">Get the App <span>↗</span></a>
-  </nav>
+  </div>
 </header>
 
-<main>
+<main id="top">
   <section class="hero">
-    <div class="stars"></div>
-    <div class="hero-glow"></div>
-
-    <div class="container hero-content">
-      <div class="eyebrow"><span class="live-dot"></span> THE FUTURE OF PRIVATE COMMUNICATION</div>
-
-      <h1>Your conversations.<br><span>Your universe.</span></h1>
-
-      <p class="hero-description">
-        Discover Stellar ECC — a communication platform built around
-        privacy, security and meaningful connections.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#download" class="button button-primary">Explore the App <span>→</span></a>
-        <a href="#security" class="button button-secondary">Discover Security</a>
+    <div class="hero-grid"></div><div class="hero-orb orb-a"></div><div class="hero-orb orb-b"></div>
+    <div class="container hero-inner">
+      <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="eyebrow">PRIVATE COMMUNICATION, REIMAGINED</span></div>
+      <h1 data-i18n-html="heroTitle">Your conversations.<br><span>Your universe.</span></h1>
+      <p class="hero-copy" data-i18n="heroCopy">Stellar ECC is a secure messaging application developed by I-WORKS in North Macedonia. Discover communication designed with privacy and thoughtful protection in mind.</p>
+      <div class="hero-buttons">
+        <a class="button button-primary" href="#download"><span data-i18n="exploreApp">Explore Stellar ECC</span><span aria-hidden="true">↗</span></a>
+        <a class="button button-quiet" href="#security" data-i18n="discoverSecurity">Explore security</a>
       </div>
-
-      <div class="hero-note">
-        <span>✦</span> Private communication. A different perspective.
-      </div>
-    </div>
-
-    <div class="hero-bottom container">
-      <span>BUILT FOR PRIVATE COMMUNICATION</span>
-      <span>STELLAR ECC <span class="blue">/</span> OFFICIAL WEBSITE</span>
+      <div class="hero-meta"><span class="meta-star">✦</span><span data-i18n="heroMeta">A clearer approach to connected communication.</span></div>
+      <div class="hero-index"><span>01</span><i></i><span>STELLAR ECC</span></div>
     </div>
   </section>
 
-  <section class="stats-section" id="community">
-    <div class="container stats-card">
-      <div>
-        <div class="section-tag">THE STELLAR COMMUNITY</div>
-        <h2>Growing together.</h2>
-        <p>Discover the community behind Stellar ECC.</p>
-      </div>
-
-      <div class="stat-number">
-        <span id="registeredUsers">—</span>
-        <span class="stat-label">REGISTERED USERS</span>
-        <span class="stat-status" id="statsStatus">Connecting to network...</span>
-      </div>
+  <section class="community-strip" aria-label="Community statistics">
+    <div class="container community-inner">
+      <div><p class="eyebrow small" data-i18n="communityLabel">THE STELLAR COMMUNITY</p><h2 data-i18n="communityTitle">Built for meaningful connections.</h2></div>
+      <div class="stat-block"><strong id="registeredUsers">—</strong><span data-i18n="registeredLabel">REGISTERED ACCOUNTS</span><small id="statsStatus" data-i18n="statsLoading">Connecting to public statistics…</small></div>
     </div>
   </section>
 
-  <section class="section container" id="about">
-    <div class="section-tag">01 / ABOUT STELLAR ECC</div>
-    <h2 class="section-title">Communication<br>without compromise.</h2>
-    <p class="section-description">
-      Stellar ECC is designed to bring communication and privacy
-      together in one platform. Explore a new approach to staying connected.
-    </p>
+  <section class="section overview-section container" id="overview">
+    <div class="section-heading">
+      <p class="eyebrow" data-i18n="overviewEyebrow">01 / THE PLATFORM</p>
+      <h2 data-i18n-html="overviewTitle">Communication with<br><span>privacy in focus.</span></h2>
+    </div>
+    <div class="overview-copy"><p data-i18n="overviewCopy">Stellar ECC is a secure messaging application developed by I-WORKS, North Macedonia. The platform brings communication features together with security measures intended to help protect accounts, devices and message content.</p><p class="muted" data-i18n="overviewNote">Explore the protections described below, including their current scope and limitations.</p></div>
   </section>
 
   <section class="security-section" id="security">
-    <div class="container security-grid">
-      <div>
-        <div class="section-tag">02 / SECURITY & PRIVACY</div>
-        <h2 class="section-title">Privacy is not<br>an afterthought.</h2>
-        <p class="section-description">
-          Security is an important part of the Stellar ECC experience.
-          Discover the technology and protection features built into the platform.
-        </p>
+    <div class="container">
+      <div class="section-heading centered">
+        <p class="eyebrow" data-i18n="securityEyebrow">02 / SECURITY & PRIVACY</p>
+        <h2 data-i18n-html="securityTitle">Protection is a practice.<br><span>Transparency matters.</span></h2>
+        <p class="section-intro" data-i18n="securityIntro">A practical overview of the security mechanisms documented for Stellar ECC — what they are designed to do, and where their limits are.</p>
       </div>
-
-      <div class="security-visual">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="shield">✧</div>
-        <div class="security-caption">STELLAR ECC<br><span>SECURITY FIRST</span></div>
+      <div class="security-layout">
+        <div class="security-art" aria-hidden="true"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="art-core">✦</div><div class="art-label">STELLAR ECC<br><b>SECURITY OVERVIEW</b></div></div>
+        <div class="security-list">
+          <article class="security-item"><span class="item-number">01</span><div><h3 data-i18n="encryptionTitle">Message encryption</h3><p data-i18n="encryptionCopy">One-to-one conversations use the Signal Protocol with Double Ratchet. Group conversations use Sender Keys. These mechanisms are used to protect message content.</p><div class="tag-row"><span>Signal Protocol</span><span>Double Ratchet</span><span>Sender Keys</span></div></div></article>
+          <article class="security-item"><span class="item-number">02</span><div><h3 data-i18n="deviceTitle">Local device protection</h3><p data-i18n="deviceCopy">Sensitive key material is stored through the platform secure-storage layer where supported. App access can be protected with the configured app PIN and device authentication.</p></div></article>
+          <article class="security-item"><span class="item-number">03</span><div><h3 data-i18n="wantedTitle">Wanted Mode</h3><p data-i18n="wantedCopy">Wanted Mode monitors selected local device and environment events, including USB, Bluetooth, network and power-related changes. Detected events can create a local security challenge or audit event.</p></div></article>
+          <article class="security-item"><span class="item-number">04</span><div><h3 data-i18n="guardTitle">Stellar GUARD — account removal</h3><p data-i18n="guardCopy">Stellar GUARD is designed as a protected workflow for requesting account removal using a six-digit verification code. The current Settings interface is preview-only; Continue is disabled and marked coming soon.</p><span class="status-pill" data-i18n="previewStatus">PREVIEW · COMING SOON</span></div></article>
+        </div>
       </div>
+      <div class="important-note"><span class="note-icon">i</span><p data-i18n="wantedNote">Wanted Mode events do not automatically wipe data or lock the app. The user can separately choose Lock now or Wipe local data and lock. Local wiping cannot erase copies already held by recipients or other devices.</p></div>
     </div>
   </section>
 
-  <section class="section container" id="features">
-    <div class="section-tag">03 / FEATURES</div>
-    <h2 class="section-title">Everything connected.</h2>
-
-    <div class="feature-grid">
-      <article class="feature-card">
-        <span class="feature-icon">◈</span>
-        <h3>Private Messaging</h3>
-        <p>Connect and communicate through the Stellar ECC messaging experience.</p>
-      </article>
-
-      <article class="feature-card">
-        <span class="feature-icon">⌁</span>
-        <h3>Voice Calls</h3>
-        <p>Stay connected through voice communication.</p>
-      </article>
-
-      <article class="feature-card">
-        <span class="feature-icon">▣</span>
-        <h3>Video Calls</h3>
-        <p>Bring conversations closer with video communication.</p>
-      </article>
-
-      <article class="feature-card">
-        <span class="feature-icon">✧</span>
-        <h3>Security Features</h3>
-        <p>Explore the security tools and privacy features of Stellar ECC.</p>
-      </article>
+  <section class="section features-section container" id="features">
+    <div class="section-heading">
+      <p class="eyebrow" data-i18n="featuresEyebrow">03 / COMMUNICATION</p>
+      <h2 data-i18n-html="featuresTitle">Everything you need<br><span>to stay connected.</span></h2>
+      <p class="section-intro" data-i18n="featuresIntro">Explore the communication experiences available in Stellar ECC.</p>
     </div>
+    <div class="feature-grid">
+      <article class="feature-card"><span class="feature-symbol">◈</span><p class="card-index">01</p><h3 data-i18n="messagingTitle">Private messaging</h3><p data-i18n="messagingCopy">One-to-one and group conversations with message-content protection.</p></article>
+      <article class="feature-card"><span class="feature-symbol">⌁</span><p class="card-index">02</p><h3 data-i18n="voiceTitle">Voice calls</h3><p data-i18n="voiceCopy">Connect with people through voice communication.</p></article>
+      <article class="feature-card"><span class="feature-symbol">▣</span><p class="card-index">03</p><h3 data-i18n="videoTitle">Video calls</h3><p data-i18n="videoCopy">Bring conversations closer with video communication.</p></article>
+      <article class="feature-card"><span class="feature-symbol">✧</span><p class="card-index">04</p><h3 data-i18n="protectionTitle">Device protection</h3><p data-i18n="protectionCopy">Explore app access protection, local security events and user-controlled safety actions.</p></article>
+    </div>
+  </section>
+
+  <section class="guidance-section" id="best-practices">
+    <div class="container guidance-inner">
+      <div><p class="eyebrow" data-i18n="guidanceEyebrow">04 / SECURITY GUIDANCE</p><h2 data-i18n-html="guidanceTitle">Good security starts<br><span>with everyday habits.</span></h2><p class="section-intro" data-i18n="guidanceIntro">Help protect your account and device with these recommended practices.</p></div>
+      <ul class="guidance-list">
+        <li data-i18n="tipOne">Never share your app PIN or verification codes.</li>
+        <li data-i18n="tipTwo">Use a strong screen lock on your device.</li>
+        <li data-i18n="tipThree">Keep Stellar ECC and your operating system updated.</li>
+        <li data-i18n="tipFour">Protect your device and any backups.</li>
+        <li data-i18n="tipFive">Remember that local deletion cannot revoke information already delivered to another participant.</li>
+      </ul>
+    </div>
+    <div class="container disclaimer"><strong data-i18n="limitsTitle">Understand the limits</strong><p data-i18n="limitsCopy">No security feature can guarantee protection against every compromised device, operating-system vulnerability or physical attack. Monitoring cannot guarantee detection of every security incident.</p></div>
   </section>
 
   <section class="download-section" id="download">
-    <div class="container download-content">
-      <div class="section-tag">04 / GET STARTED</div>
-      <h2>Your next connection<br>starts with Stellar.</h2>
-      <p>Discover Stellar ECC and join the community.</p>
-      <a href="/downloads/stellar-ecc.apk" class="button button-primary download-button">
-        Download for Android <span>↓</span>
-      </a>
-      <span class="download-note">Android application · Official release</span>
+    <div class="container download-inner"><p class="eyebrow" data-i18n="downloadEyebrow">05 / GET STARTED</p><h2 data-i18n-html="downloadTitle">Make room for<br><span>better conversations.</span></h2><p data-i18n="downloadCopy">Discover Stellar ECC, developed by I-WORKS.</p><div class="download-buttons">
+        <a class="button button-primary download-button" href="/downloads/stellar-ecc.apk">
+          <span data-i18n="downloadAndroid">Download for Android</span><span aria-hidden="true">↓</span>
+        </a>
+        <a class="button button-primary download-button" href="#" data-platform="windows">
+          <span>Download for Windows</span><span aria-hidden="true">↓</span>
+        </a>
+        <a class="button button-primary download-button" href="#" data-platform="ios">
+          <span>Download for iOS</span><span aria-hidden="true">↓</span>
+        </a>
+      </div><small data-i18n="downloadNote">Official Android release · Download availability will be announced here.</small></div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="container contact-inner">
+      <p class="eyebrow" data-i18n="contactEyebrow">06 / CONTACT</p>
+      <h2 data-i18n="contactTitle">Get in touch.</h2>
+      <p class="section-intro" data-i18n="contactCopy">Choose the right address for your inquiry.</p>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:contact@stellarecc.com">
+          <span class="contact-card-icon">✉</span>
+          <h3 data-i18n="contactGeneral">General inquiries</h3>
+          <span>contact@stellarecc.com</span>
+        </a>
+        <a class="contact-card" href="mailto:support@stellarecc.com">
+          <span class="contact-card-icon">⌘</span>
+          <h3 data-i18n="contactSupport">Technical support</h3>
+          <span>support@stellarecc.com</span>
+        </a>
+        <a class="contact-card" href="mailto:info@stellarecc.com">
+          <span class="contact-card-icon">ⓘ</span>
+          <h3 data-i18n="contactInfo">General information</h3>
+          <span>info@stellarecc.com</span>
+        </a>
+      </div>
     </div>
   </section>
+
 </main>
 
-<footer class="footer">
-  <div class="container footer-inner">
-    <a href="#" class="brand"><span class="brand-icon">✦</span> STELLAR <b>ECC</b></a>
-    <span>© <span id="year"></span> Stellar ECC. All rights reserved.</span>
-    <a href="#security">Privacy & Security ↑</a>
-  </div>
-</footer>
-
+<footer class="site-footer"><div class="container footer-main"><a class="brand" href="#top"><span class="brand-mark">✦</span><span>STELLAR <b>ECC</b><small>BY I-WORKS</small></span></a><p data-i18n="footerTagline">Private communication. Thoughtfully built.</p><a href="#security" data-i18n="footerSecurity">Security & privacy ↑</a></div><div class="container footer-bottom"><span>© <span id="year"></span> I-WORKS. <span data-i18n="rights">All rights reserved.</span></span><span data-i18n="footerOrigin">Developed in North Macedonia</span></div></footer>
 <script src="script.js"></script>
 </body>
 </html>
